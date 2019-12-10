@@ -6,10 +6,8 @@
         xmlns:local="clr-namespace:Screenshot"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="400" ResizeMode="NoResize" Closing="OnClosing" StateChanged="OnStateChanged"
-        IsVisibleChanged="OnIsVisibleChanged">
+        Title="MainWindow" Height="300" Width="400" ResizeMode="NoResize" Closing="OnClosing">
     <Grid>
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="97*"/>
             <ColumnDefinition Width="208*"/>
@@ -26,6 +24,7 @@
         <Label Content="Период в минутах" Grid.Row="0" Grid.Column="1"/>
         <TextBox Name="inputPeriod" Grid.Column="1" PreviewTextInput="NumericInputOnly" Margin="0,43,0,0" Grid.RowSpan="2"/>
         <Button Name="saveButton" Click="SaveScreenshots" Content="Сохранить" Grid.Row="2" Grid.Column="1" Margin="0,15,0,10"/>
-        <tb:TaskbarIcon />
+        <tb:TaskbarIcon x:Name="taskBar" Visibility="Hidden" ToolTipText="Развернуть" IconSource="Red.ico" TrayLeftMouseDown="TrayLeftMouseDown" />
+
     </Grid>
 </Window>

@@ -1,22 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.IO;
 using System.Windows.Input;
-//using System.Threading;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Timers;
 using System.Drawing;
-using System.Drawing.Imaging;
 
 namespace Screenshot
 {
@@ -27,9 +13,10 @@ namespace Screenshot
     {
         private readonly string savePath;
         private const int SECONDS_IN_MINUTE = 60;
+        private WindowState previousWindowState;
         public MainWindow()
         {
-            savePath = @"C:\Users\ЖакуповаК\Pictures\Screenshoter";
+            savePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             InitializeComponent();
             Directory.CreateDirectory(savePath);
         }
@@ -44,7 +31,7 @@ namespace Screenshot
                 }
             }
         }
-        private void TakeScreenshot(object state/*, ElapsedEventArgs e*/)
+        private void TakeScreenshot(object state)
         {
             var screenLeft = (int)SystemParameters.VirtualScreenLeft;
             var screenTop = (int)SystemParameters.VirtualScreenTop;
@@ -75,17 +62,24 @@ namespace Screenshot
         private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            this.Hide();
+
+            if (WindowState != WindowState.Normal)
+            {
+                previousWindowState = WindowState;
+            }
+            else
+            {
+                Hide();
+                taskBar.Visibility = Visibility.Visible;
+            } 
+            
         }
 
-        private void OnStateChanged(object sender, EventArgs e)
+        private void TrayLeftMouseDown(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-
+            Show();
+            WindowState = previousWindowState;
+            taskBar.Visibility = Visibility.Hidden;
         }
     }
 }
